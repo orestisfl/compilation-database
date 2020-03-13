@@ -1,0 +1,27 @@
+- url: "https://github.com/i3/i3"
+  depth: 0
+  build: |-
+    autoreconf -fi
+    mkdir build && cd build
+    ../configure --disable-sanitizers --disable-docs --disable-mans --enable-debug=no
+    make
+- url: "https://github.com/git/git"
+  build: |-
+    [[ -z $CC ]] && make || make CC=$CC
+- url: "https://github.com/ggreer/the_silver_searcher"
+  build: |-
+    ./autogen.sh
+    mkdir build && cd build
+    ../configure
+    make
+- url: "https://github.com/tmux/tmux"
+  build: |-
+    ./autogen.sh
+    ./configure
+    make
+- url: "https://github.com/curl/curl"
+  build: |-
+    ./buildconf
+    mkdir build && cd build
+    ../configure
+    make
