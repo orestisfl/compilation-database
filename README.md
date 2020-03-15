@@ -1,4 +1,4 @@
-# Script and compilation database for popular C software
+# Script and compilation database for popular C software [![Build Status](https://travis-ci.com/orestisfl/compilation-database.svg?branch=master)](https://travis-ci.com/orestisfl/compilation-database)
 
 ## Installation
 

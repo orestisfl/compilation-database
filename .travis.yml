@@ -1,0 +1,24 @@
+language: python
+os: linux
+dist: bionic
+before_install:
+  - sudo sed -i -e 's/# deb-src/deb-src/' /etc/apt/sources.list
+  - sudo apt-get update -qq
+  - sudo apt-get full-upgrade -y
+  - sudo apt install -y parallel
+install:
+  - pip install -r requirements.txt
+  - ./build_reqs.py | sudo sh
+script:
+  - ./compile.py -ev  && ./postprocess.py -v strip opt dis archive && ls -la build && tar czf logs.tar.gz logs/
+env:
+  - CC=clang CXX=clang++ CFLAGS='-save-temps -O1' CPPFLAGS='-save-temps -O1' CXXFLAGS='-save-temps -O1'
+deploy:
+  provider: releases
+  token: "$GITHUB_OAUTH_TOKEN"
+  file_glob: true
+  file:
+    - logs.tar.gz
+    - build/*.tar.gz
+  skip_cleanup: true
+  prerelease: true
