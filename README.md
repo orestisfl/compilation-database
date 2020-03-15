@@ -24,6 +24,24 @@ By default, it is inferred from the `url`.
 
 ### Examples
 
+#### Build environment: clang-10, save IR
+
+This will use clang and will enable saving of intermediate results,
+producing the [bitcode files](https://llvm.org/docs/BitCodeFormat.html) needed in the postprocess step.
+
+```shell script
+$ cat set_env.sh
+export CC=clang
+export CXX=clang++
+export CFLAGS='-save-temps -O1'
+export CPPFLAGS='-save-temps -O1'
+export CXXFLAGS='-save-temps -O1'
+export PATH="/usr/lib/llvm-10/bin:$PATH"
+$ source set_env.sh
+$ ./compile.py
+$ ./postprocess.py -O2,3 strip opt dis archive
+```
+
 #### use `-j` for parallel make build
 
 ```shell script
