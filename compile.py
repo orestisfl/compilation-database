@@ -71,8 +71,16 @@ def main(args: Namespace) -> int:
 
     successful = list(build_iter(args))
     if successful:
-        with open("done.log", "w" if args.rebuild else "a") as f:
-            print("\n".join(d["url"] for d in successful), file=f)
+        # Items that succeeded this time should always be in done.log
+        successful_urls = set(d["url"] for d in successful)
+        # This that failed should always be removed from done.log
+        failed = set(d["url"] for d in args.items) - successful_urls
+        # All other should be preserved
+        successful_urls.update(set(get_done("done.log")))
+        # Order of operations matters here: First add old and new successes and then remove new failures
+        successful_urls.difference_update(failed)
+        with open("done.log", "w") as f:
+            print("\n".join(sorted(successful_urls)), file=f)
 
     failures = len(args.items) - len(successful)
     if failures > 0 and args.exit_on_error:
@@ -81,16 +89,19 @@ def main(args: Namespace) -> int:
 
 
 def load_config(args: Namespace) -> List[ConfigItem]:
-    return utils_load_config(args, skip_urls=get_done(args))
-
-
-def get_done(args: Namespace) -> List[str]:
     if args.rebuild:
-        return []
+        done = []
+    else:
+        done = get_done(os.path.join(args.build_dir, "done.log"))
+    return utils_load_config(args, skip_urls=done)
+
+
+def get_done(file_name: str) -> List[str]:
     try:
-        with open("done.log") as f:
+        with open(os.path.join(file_name)) as f:
             return f.read().strip().split("\n")
     except FileNotFoundError:
+        logger.debug("{} not found", file_name)
         return []
 
 
