@@ -84,7 +84,7 @@ def _get_dirname(url: str) -> str:
     for pattern in GITHUB_REGEXPS:
         result = pattern.search(url)
         if result:
-            return result.groups()[1]
+            return result.groups()[1].rstrip("/")
     assert result, "URL matches GitHub patterns"
 
 
