@@ -5,23 +5,42 @@
     mkdir build && cd build
     ../configure --disable-sanitizers --disable-docs --disable-mans --enable-debug=no
     make
+  requirements:
+    build-dep:
+      - i3-wm
+    packages:
+      - libxcb-shape0-dev
 - url: "https://github.com/git/git"
   build: |-
     [[ -z $CC ]] && make || make CC=$CC
+  requirements:
+    build-dep:
+      - git
 - url: "https://github.com/ggreer/the_silver_searcher"
   build: |-
     ./autogen.sh
     mkdir build && cd build
     ../configure
     make
+  requirements:
+    build-dep:
+      - silversearcher-ag
 - url: "https://github.com/tmux/tmux"
   build: |-
     ./autogen.sh
     ./configure
     make
+  requirements:
+    build-dep:
+      - tmux
+    packages:
+      - bison
 - url: "https://github.com/curl/curl"
   build: |-
     ./buildconf
     mkdir build && cd build
     ../configure
     make
+  requirements:
+    build-dep:
+      - curl
