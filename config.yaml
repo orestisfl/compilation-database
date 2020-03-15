@@ -44,3 +44,26 @@
   requirements:
     build-dep:
       - curl
+- url: "https://github.com/netdata/netdata/"
+  build: |-
+    autoreconf -fi
+    ./configure
+    make
+  requirements:
+    build-dep:
+      - netdata
+    packages:
+      - libuv1-dev
+- url: "https://github.com/php/php-src"
+  branch: "PHP-7.2.28"
+  build: |-
+    ./buildconf
+    ./configure
+    make
+  requirements:
+    build-dep:
+      - php7.2
+- url: "https://github.com/antirez/redis"
+  build: |-
+    make
+  requirements: []
