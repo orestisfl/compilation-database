@@ -112,8 +112,10 @@ def clone_all(items):
 def clone_cmd(d):
     depth = d.get("depth", 1)
     depth_s = f" --depth {depth}" if depth >= 1 else ""
+    branch = d.get("branch")
+    branch = f" --branch {branch} " if branch else ""
 
-    return f"[[ -d {d['dir']} ]] || git clone {d['url']}{depth_s} {d['dir']}"
+    return f"[[ -d {d['dir']} ]] || git clone {d['url']}{depth_s}{branch} {d['dir']}"
 
 
 def build_iter(args: Namespace) -> Iterable[ConfigItem]:

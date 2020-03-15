@@ -12,6 +12,7 @@ Currently, each item supports these keys:
 
 - `url`: *(Required)* Repository location
 - `build`: *(Required)* Commands used to build the repository.
+- `branch`: Specific branch to clone
 - `depth`: Clone argument to be passed to `git clone`.
 By default, all repositories are cloned with `--depth=1`.
 If equal to `0`, the `--depth` argument is not passed at all.
