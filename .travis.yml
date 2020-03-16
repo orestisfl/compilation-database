@@ -1,6 +1,9 @@
 language: python
 os: linux
 dist: bionic
+branches:
+  except:
+    - /^untagged-.*/
 before_install:
   - sudo sed -i -e 's/# deb-src/deb-src/' /etc/apt/sources.list
   - sudo apt-get update -qq
