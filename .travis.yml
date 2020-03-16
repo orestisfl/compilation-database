@@ -22,3 +22,4 @@ deploy:
     - build/*.tar.gz
   skip_cleanup: true
   prerelease: true
+  name: Build $(date +'%Y.%m.%d %R')
