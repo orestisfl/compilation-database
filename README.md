@@ -4,6 +4,7 @@
 
 For the python scripts, you need to run `pip -r requirements.txt`.
 Then, you need to install all the dependencies needed by the config file.
+For Ubuntu, see the [build_reqs.py](build_reqs.py) script.
 
 ## Usage
 
