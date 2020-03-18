@@ -138,7 +138,7 @@ def step_strip(args: Namespace) -> int:
 
 @register_step("Run 'llvm-dis' on all .bc files", requires=["llvm-dis"])
 def step_dis(args: Namespace) -> int:
-    return parallel("llvm-dis", args.bc_list)
+    return parallel("llvm-dis", args.bc_list) + parallel("llvm-dis", args.opt_bc_list)
 
 
 @register_step(
@@ -153,12 +153,16 @@ def step_souper(args: Namespace) -> int:
     "Run optimizer for each optimization level. See --opt-levels.", requires=["opt"]
 )
 def step_opt(args: Namespace) -> int:
+    args.opt_bc_list = []
     for opt in args.opt_levels or ["0"]:
         ret = parallel(
             f"opt {{}} -O{opt} {args.opt_flags} -o {{.}}-O{opt}.bc", args.bc_list
         )
         if ret > 0:
             return ret
+        args.opt_bc_list.extend(
+            [os.path.splitext(x)[0] + f"-O{opt}.bc" for x in args.bc_list]
+        )
     return 0
 
 
