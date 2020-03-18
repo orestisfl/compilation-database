@@ -13,7 +13,7 @@ install:
   - pip install -r requirements.txt
   - ./build_reqs.py | sudo sh
 script:
-  - ./compile.py -ev  && ./postprocess.py -v strip opt dis archive && ls -la build && tar czf logs.tar.gz logs/
+  - ./compile.py -ev  && ./postprocess.py -O2,3 -v strip opt dis archive && ls -la build && tar czf logs.tar.gz logs/
 env:
   - CC=clang CXX=clang++ CFLAGS='-save-temps -O1' CPPFLAGS='-save-temps -O1' CXXFLAGS='-save-temps -O1'
 deploy:
