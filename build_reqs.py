@@ -22,7 +22,8 @@ def main(args: Namespace):
             logger.warning("Skipping {} as it has no 'requirements'", item["dir"])
             continue
         if isinstance(requirements, list):
-            print("apt-get install -qq", " ".join(requirements))
+            if requirements:
+                print("apt-get install -qq", " ".join(requirements))
         else:
             for k, v in requirements.items():
                 if k == "build-dep":
