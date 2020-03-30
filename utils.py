@@ -26,6 +26,12 @@ def add_common_args(argument_parser: ArgumentParser):
         metavar="DIR",
         default="build/",
     )
+    argument_parser.add_argument(
+        "-e",
+        "--exit-on-error",
+        help="If any step fails, exit immediately",
+        action="store_true",
+    )
     black_white_group = argument_parser.add_mutually_exclusive_group()
     black_white_group.add_argument(
         "--whitelist", type=arg_type_list, help="Only process specifically these items"

@@ -31,7 +31,7 @@ def main(args: Namespace) -> int:
 
     for step in args.steps:
         ret = STEP_MAP[step]["cb"](args)
-        if ret > 0:
+        if ret > 0 and args.exit_on_error:
             return ret
 
     return 0
@@ -130,7 +130,7 @@ def step_archive(args: Namespace) -> int:
 @register_step("Run 'opt -strip' on all .bc files", requires=["opt"])
 def step_strip(args: Namespace) -> int:
     ret = parallel(f"opt {{}} -strip-debug -strip -o {{.}}-strip.bc", args.bc_list)
-    if ret > 0:
+    if ret > 0 and args.exit_on_error:
         return ret
     args.bc_list = [os.path.splitext(x)[0] + "-strip.bc" for x in args.bc_list]
     return 0
@@ -156,9 +156,10 @@ def step_opt(args: Namespace) -> int:
     args.opt_bc_list = []
     for opt in args.opt_levels or ["0"]:
         ret = parallel(
-            f"opt {{}} -O{opt} {args.opt_flags} -o {{.}}-O{opt}.bc", args.bc_list
+            f"timeout 1m opt {{}} -O{opt} {args.opt_flags} -o {{.}}-O{opt}.bc",
+            args.bc_list,
         )
-        if ret > 0:
+        if ret > 0 and args.exit_on_error:
             return ret
         args.opt_bc_list.extend(
             [os.path.splitext(x)[0] + f"-O{opt}.bc" for x in args.bc_list]
@@ -170,7 +171,7 @@ def step_opt(args: Namespace) -> int:
 def step_all(args: Namespace) -> int:
     for step in [step_strip, step_opt, step_dis, step_souper, step_archive]:
         ret = step(args)
-        if ret > 0:
+        if ret > 0 and args.exit_on_error:
             return ret
     return 0
 

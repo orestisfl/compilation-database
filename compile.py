@@ -31,12 +31,6 @@ def parse_args() -> Namespace:
     parser.add_argument(
         "-r", "--rebuild", help="Clean & rebuild everything", action="store_true"
     )
-    parser.add_argument(
-        "-e",
-        "--exit-on-error",
-        help="If any build fails, exit immediately",
-        action="store_true",
-    )
     # Steps
     clone_group = parser.add_mutually_exclusive_group()
     clone_group.add_argument(
