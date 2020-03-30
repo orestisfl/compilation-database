@@ -12,7 +12,9 @@
       - libxcb-shape0-dev
 - url: "https://github.com/git/git"
   build: |-
-    [[ -z $CC ]] && make || make CC=$CC
+    [[ -z $CC ]] && _CC= || _CC="CC=$CC"
+    [[ -z $CFLAGS ]] && _CFLAGS= || _CFLAGS="CFLAGS=$CFLAGS"
+    make "$_CC" "$_CFLAGS"
   requirements:
     build-dep:
       - git
