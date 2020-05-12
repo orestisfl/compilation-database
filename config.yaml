@@ -69,3 +69,8 @@
   build: |-
     make
   requirements: []
+- url: "https://github.com/jedisct1/libsodium"
+  build: |-
+    autoreconf -fi
+    ./configure
+    make check
