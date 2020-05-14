@@ -74,3 +74,13 @@
     autoreconf -fi
     ./configure
     make check
+- url: "https://github.com/verificatum/verificatum-vec"
+  build: |-
+      autoreconf -fi
+      ./configure
+      make
+- url: "https://github.com/verificatum/verificatum-gmpmee"
+  build: |-
+      make -f Makefile.build
+      ./configure
+      make
