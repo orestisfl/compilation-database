@@ -13,15 +13,8 @@ def parse_args() -> Namespace:
     parser = ArgumentParser(
         description="Compile software projects according to config file"
     )
-    add_common_args(parser)
+    add_common_args(parser, config=True)
     # In / Out
-    parser.add_argument(
-        "--config",
-        "-c",
-        help="Config file to use",
-        metavar="YAML_FILE",
-        default="config.yaml",
-    )
     parser.add_argument(
         "--logs-dir",
         help="Directory for logs of build commands",

@@ -1,0 +1,47 @@
+name: CI
+
+# Run on push with specific tag
+on:
+  push:
+    branches: [master]
+
+jobs:
+  dockerbuild:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config_targets: [i3, git, the_silver_searcher, tmux, curl, netdata, php-src, redis, libsodium, verificatum-vec,
+  verificatum-gmpmee, libsignal-protocol-c]
+    env:
+      CC: clang
+      CXX: clang++
+      CFLAGS: "-save-temps -O1"
+      CPPFLAGS: "-save-temps -O1"
+      CXXFLAGS: "-save-temps -O1"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo sed -i -e 's/# deb-src/deb-src/' /etc/apt/sources.list
+          sudo apt-get update -qq
+          sudo apt-get full-upgrade -y
+          # TODO
+          sudo apt-get install -y clang
+      - name: Install project
+        run: |
+          pip install -r requirements.txt
+          ./build_reqs.py --whitelist=${{ matrix.config_targets }} | sudo sh
+      - run: ./compile.py -ev --whitelist=${{ matrix.config_targets }}
+      - run: ./postprocess.py --whitelist=${{ matrix.config_targets}} -O2,3 -v strip opt dis archive
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: build
+      - name: Upload logs
+        uses: actions/upload-artifact@v1
+        with:
+          name: logs
+          path: logs

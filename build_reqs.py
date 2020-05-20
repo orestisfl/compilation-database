@@ -38,16 +38,9 @@ def main(args: Namespace):
 
 def parse_args():
     parser = ArgumentParser(description="Print build requirements from config file")
-    add_common_args(parser)
+    add_common_args(parser, config=True)
     parser.add_argument(
         "--assume-supported", help="Skip distro check", action="store_true",
-    )
-    parser.add_argument(
-        "config",
-        help="Config file to parse",
-        default="config.yaml",
-        metavar="YAML_FILE",
-        nargs="?",
     )
 
     return parser.parse_args()

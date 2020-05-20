@@ -13,7 +13,7 @@ from loguru import logger
 ConfigItem = Dict[Hashable, Any]
 
 
-def add_common_args(argument_parser: ArgumentParser):
+def add_common_args(argument_parser: ArgumentParser, config=False):
     log_group = argument_parser.add_mutually_exclusive_group()
     log_group.add_argument(
         "--verbose", "-v", help="Verbose log level", action="store_true"
@@ -39,6 +39,14 @@ def add_common_args(argument_parser: ArgumentParser):
     black_white_group.add_argument(
         "--blacklist", type=arg_type_list, help="Exclude processing these items"
     )
+    if config:
+        argument_parser.add_argument(
+            "--config",
+            "-c",
+            help="Config file to use",
+            metavar="YAML_FILE",
+            default="config.yaml",
+        )
 
 
 def arg_type_list(s: str, element_type: Type = str) -> List[Any]:

@@ -88,9 +88,7 @@ def parse_args() -> Namespace:
         "If not specified, the script will run recursively on all bitcode files on the build dir.",
     )
     parser.add_argument("--postfix", help="Archive name postfix", default="")
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()
 
 
 def register_step(help_msg, requires=tuple()):
