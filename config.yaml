@@ -84,3 +84,8 @@
       make -f Makefile.build
       ./configure
       make
+- url: "https://github.com/signalapp/libsignal-protocol-c"
+  build: |-
+      mkdir build && cd build
+      cmake ..
+      make
