@@ -43,7 +43,7 @@ jobs:
       - name: Install project
         run: |
           pip install -r requirements.txt
-          ./build_reqs.py --whitelist=${{ matrix.config_targets }} | sudo sh
+          ./build_reqs.py -v --whitelist=${{ matrix.config_targets }} | sudo sh
       - run: PATH="/usr/lib/llvm-10/bin:$PATH" ./compile.py -ev --whitelist=${{ matrix.config_targets }}
       - run: PATH="/usr/lib/llvm-10/bin:$PATH" ./postprocess.py --whitelist=${{ matrix.config_targets}} -O2,3 -v strip opt dis archive
       - name: Upload artifacts
