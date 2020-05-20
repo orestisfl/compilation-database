@@ -4,6 +4,9 @@ name: CI
 on:
   push:
     branches: [master]
+  schedule:
+    # Once a month
+    - cron: '0 0 1 * *'
 
 jobs:
   dockerbuild:
