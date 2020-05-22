@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config_targets: [i3, git, the_silver_searcher, tmux, curl, netdata, php-src, redis, libsodium, verificatum-vec,
+        config_target: [i3, git, the_silver_searcher, tmux, curl, netdata, php-src, redis, libsodium, verificatum-vec,
   verificatum-gmpmee, libsignal-protocol-c]
     env:
       CC: clang
@@ -44,9 +44,9 @@ jobs:
       - name: Install project
         run: |
           pip install -r requirements.txt
-          ./build_reqs.py -v --whitelist=${{ matrix.config_targets }} | sudo sh
-      - run: PATH="/usr/lib/llvm-10/bin:$PATH" ./compile.py -ev --whitelist=${{ matrix.config_targets }}
-      - run: PATH="/usr/lib/llvm-10/bin:$PATH" ./postprocess.py --whitelist=${{ matrix.config_targets}} -O2,3 -v strip opt dis
+          ./build_reqs.py -v --whitelist=${{ matrix.config_target }} | sudo sh
+      - run: PATH="/usr/lib/llvm-10/bin:$PATH" ./compile.py -ev --whitelist=${{ matrix.config_target }}
+      - run: PATH="/usr/lib/llvm-10/bin:$PATH" ./postprocess.py --whitelist=${{ matrix.config_target}} -O2,3 -v strip opt dis
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
