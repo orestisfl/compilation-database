@@ -36,7 +36,7 @@ def main(args: Namespace) -> int:
 
 def find_in_config(fname):
     with open(fname) as f:
-        lines = [line for line in f]
+        lines = list(f)
     for idx, line in enumerate(map(str.strip, lines)):
         if line.startswith("config_targets: ["):
             return idx, lines
